@@ -1,0 +1,15 @@
+name: Ansible
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ckeckout
+        uses: actions/checkout@v4
+      - name: Run Ansible Playbook
+        run: make -C ansible run

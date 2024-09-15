@@ -1,0 +1,29 @@
+name: Maven
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    env:
+      MAVEN_OPTS: -Dmaven.ext.class.path=otel.jar
+      OTEL_VERSION: 1.7.0-alpha
+    steps:
+      - name: Ckeckout
+        uses: actions/checkout@v4
+        with:
+          repository: elastic/opentelemetry-maven-extension
+          ref: main
+
+      - name: fetch opentelemetry-maven-extension
+        run: curl -s https://repo.maven.apache.org/maven2/io/opentelemetry/contrib/opentelemetry-maven-extension/\${OTEL_VERSION}/opentelemetry-maven-extension-\${OTEL_VERSION}.jar > otel.jar
+
+      - name: mvn compile
+        run: ./mvnw -B ${MAVEN_OPTS} clean compile
+
+      - name: mvn test
+        run: ./mvnw -B ${MAVEN_OPTS} test
+        

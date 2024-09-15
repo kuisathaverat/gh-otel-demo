@@ -1,0 +1,27 @@
+name: Otel CLI
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    env:
+      OTEL_LOCATION: ${{ github.workspace }}
+      OTEL_SERVICE_NAME: otel-cli
+      OTEL_EXPORTER_OTLP_ENDPOINT: 
+    steps:
+      - name: Ckeckout
+        uses: actions/checkout@v4
+        
+      - name: fetch otel-cli
+        run: |
+          gh release download --repo equinix-labs/otel-cli --archive tar.gz
+          tar -xf otel-cli-*.tar.gz
+
+      - name: build
+        run: make -C otel-cli build
+      - name: test
+        run: make -C otel-cli test

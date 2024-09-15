@@ -1,0 +1,12 @@
+- name: Echo
+  hosts: localhost
+  connection: local
+
+  tasks:
+    - name: Print debug message
+      debug:
+        msg: Hello, world!
+    - name: Create a file called '/tmp/testfile.txt' with the content 'hello world'.
+      copy:
+        content: hello world
+        dest: /tmp/testfile.txt
