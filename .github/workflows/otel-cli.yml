@@ -20,8 +20,11 @@ jobs:
         run: |
           gh release download --repo equinix-labs/otel-cli --archive tar.gz
           tar -xf otel-cli-*.tar.gz
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: build
         run: make -C otel-cli build
+        
       - name: test
         run: make -C otel-cli test
