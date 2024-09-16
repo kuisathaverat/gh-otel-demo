@@ -1,4 +1,4 @@
-name: Maven
+name: Maven (old)
 on:
   workflow_dispatch:
 
