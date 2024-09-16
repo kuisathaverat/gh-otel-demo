@@ -1,0 +1,45 @@
+name: Maven
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      MAVEN_OPTS: ""
+    steps:
+      - name: Ckeckout
+        uses: actions/checkout@v4
+        with:
+          repository: elastic/opentelemetry-maven-extension
+          ref: main
+
+      - name: mvn compile
+        run: ./mvnw -B ${MAVEN_OPTS} clean compile
+
+      - name: mvn test
+        run: ./mvnw -B ${MAVEN_OPTS} test
+
+      - uses: inception-health/otel-upload-test-artifact-action@v1
+        if: always()
+        with:
+          jobName: "build-and-test"
+          stepName: "run tests"
+          path: "target/surefire-reports/TEST-*.xml"
+          type: "junit"
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+  otel-export-trace:
+    if: always()
+    name: OpenTelemetry Export Trace
+    runs-on: ubuntu-latest
+    needs: [build] # must run when all jobs are complete
+    steps:
+      - name: Export Workflow Trace
+        uses: inception-health/otel-export-trace-action@latest
+        with:
+          otlpEndpoint: ${{ secrets.OTLP_ENDPOINT }}
+          otlpHeaders: ${{ secrets.OTLP_HEADERS }}
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
