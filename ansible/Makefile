@@ -1,3 +1,5 @@
+VENV ?= $(CURDIR)/.venv
+PYTHON ?= python3
 SHELL = /bin/bash
 MAKEFLAGS += --silent --no-print-directory
 .SHELLFLAGS = -ec
@@ -17,7 +19,7 @@ help:
 ## @help:install-ansible:Install ansible and the dependencies needed in a virtual environment.
 .PHONY: install-ansible
 install-ansible:
-	$(PYTHON) -m venv $(VENV);\
+	$(PYTHON) -m venv $(VENV);
 	source $(VENV)/bin/activate;\
 	$(PYTHON) --version; \
 	$(PYTHON) -m pip install -U pip;\
