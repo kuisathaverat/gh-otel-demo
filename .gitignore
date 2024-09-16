@@ -1,0 +1,16 @@
+__pycache__
+.ansible
+.ci/.hermit
+.DS_Store
+.env
+.gsutil
+.helm
+.idea
+.kube
+.pytest_cache
+.terraform.lock.hcl
+.vagrant
+.vault-token
+.vscode
+ansible/.venv
+gha-creds-*.json
