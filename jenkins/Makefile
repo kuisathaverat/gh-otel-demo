@@ -1,6 +1,6 @@
 PROJECT_NAME := jenkins
-VERSION := lts-otel
-DOCKER_IMAGE ?= https://ghcr.io/kuisathaverat/gh-otel-demo/$(PROJECT_NAME):$(VERSION)
+VERSION := lts
+DOCKER_IMAGE ?= ghcr.io/kuisathaverat/gh-otel-demo/$(PROJECT_NAME):$(VERSION)
 DOCKER_OPTS ?=
 
 ## @help:docker-build:build Build docker image
