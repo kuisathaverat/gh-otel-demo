@@ -1,6 +1,8 @@
 name: Maven
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "*/5 0 * * 1-5"
 
 permissions:
   contents: read
@@ -26,4 +28,7 @@ jobs:
 
       - name: mvn test
         run: ./mvnw -B ${MAVEN_OPTS} test
+
+      - name: Random failure
+        run: exit $((${RANDOM}%2))
         
